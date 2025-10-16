@@ -1,91 +1,179 @@
+@page {
+  margin: 1cm;
+}
+
 body {
-  font-size: .95em;
+  background: #fff !important;
+  color: #333 !important;
+  font-family: 'Open Sans', Arial, Tahoma;
   -webkit-print-color-adjust: exact;
+  font-size: 12pt;
 }
 
-a[href]:after {
-  content: none !important;
+.container {
+  width: 100%;
+  padding: 0;
 }
 
-#photo{
-  display: none;
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col-xs-12 {
+  width: 100%;
+  padding: 0.5em;
+  box-sizing: border-box;
+}
+
+.col-sm-7 {
+  flex: 0 0 58%;
+  max-width: 58%;
+  padding-right: 1em;
+}
+
+.col-sm-5 {
+  flex: 0 0 42%;
+  max-width: 42%;
 }
 
 .box {
-  margin-bottom: -10px;
-}
-
-blockquote,
-#education,
-#awards,
-.contact-item,
-.publication,
-.skills,
-.interests {
+  margin-bottom: 15px;
   page-break-inside: avoid;
 }
 
-.col-sm-5{
-  width: 40%;
-  padding: 0 15px;
+#photo-header, #text-header {
+  text-align: center;
+  margin-bottom: 1em;
 }
 
-.col-sm-7{
-  width: 60%;
-  padding: 0 15px;
+#photo img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 3px solid #227c74;
 }
 
-.skills .col-sm-offset-1,
-.interests .col-sm-offset-1{
-  margin-top: -10px;
+#text-header h1 {
+  font-size: 1.8em;
+  font-weight: 700;
+  color: #227c74;
+}
+
+#text-header h1 span {
+  color: #555;
+  font-weight: 400;
+}
+
+.job .details, .job .job-details,
+#education li .description, #awards li .description,
+.volunteer .details {
+  background: #f5f5f5 !important;
+  border: 1px solid #ccc !important;
+  padding: 0.5em;
+}
+
+.job .where, .job .profession, .job .year,
+#awards .year, #education .year,
+.publication .year {
+  color: #227c74;
+  font-weight: 600;
+  font-size: 0.9em;
+}
+
+.job .description, .job .highlights, .publication p,
+.education .description, .contact-item .description {
+  font-size: 0.9em;
+  line-height: 1.3em;
+}
+
+.highlights {
+  font-weight: bold;
+  margin-top: 0.5em;
+}
+
+.contact-item {
+  display: flex;
   margin-bottom: 5px;
 }
 
-#education {
-  margin: 0;
-  margin-bottom: -20px;
-}
-#awards:before,
-#education:before {
-  background: none;
+.contact-item .icon {
+  width: 40px;
+  background: #ddd !important;
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 5px;
+  box-sizing: border-box;
 }
 
-#awards .description,
-#education .description,
-.job .details {
-  border: 1px solid #eee;
+.contact-item .title, .contact-item .description {
+  padding-left: 5px;
+  flex-grow: 1;
 }
-.publication,
-.publication .panel-heading,
-.publication .name{
-  margin: 0;
-  padding: 0 5px;
+
+.item-skills, .item-interests {
+  display: inline-block;
+  margin: 2px;
+  padding: 3px 6px;
+  font-size: 0.85em;
+  font-weight: 600;
+  background: #227c74;
+  color: #fff;
+  border-radius: 3px;
+}
+
+.skill-level {
+  background: #555 !important;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.75em;
+  margin-left: 5px;
+}
+
+.publication {
+  margin-bottom: 10px;
+}
+
+.publication .name {
+  font-weight: bold;
+  color: #227c74;
+}
+
+.publication .publisher {
+  font-size: 0.85em;
+  font-style: italic;
+}
+
+a {
+  color: #227c74;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+#language-skills .skill {
+  display: block;
+  margin-bottom: 3px;
+  background: #227c74;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+blockquote {
+  border-left: 3px solid #227c74;
+  padding-left: 10px;
+  color: #333;
+  margin: 5px 0 10px 0;
+}
+
+ul.list-group {
+  padding-left: 15px;
+}
+
+ul.list-group li {
   border: none;
+  padding-left: 0;
 }
-.publication .panel-body {
-  padding: 0 10px;
-  margin: 0;
-}
-
-.badge {
-  margin: 0;
-}
-
-.list-group-item{
-  border: none;
-  margin: 0;
-  padding: 5px 15px;
-}
-.list-group-item:after{
-  content: '';
-  position: absolute;
-  top: 8px;
-  right: 0;
-  left: -1px;
-  height: 0;
-  width: 0;
-  border: solid transparent;
-  border-right-color: #999;
-  border-width: 4px;
-  pointer-events: none;
- }

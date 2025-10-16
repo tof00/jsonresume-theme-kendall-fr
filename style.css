@@ -12,6 +12,7 @@ body{
   color: #363636;
   background: #334960;
 }
+
 blockquote {
   font-size: 1em;
 }
@@ -97,14 +98,9 @@ blockquote {
   content: ' ';
   display: block;
   background: #32475c;
-  background: -moz-linear-gradient(top,  #ffffff 0%, #32475c 7%, #32475c 89%, #ffffff 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(7%,#32475c), color-stop(89%,#32475c), color-stop(100%,#ffffff));
-  background: -webkit-linear-gradient(top,  #ffffff 0%,#32475c 7%,#32475c 89%,#ffffff 100%);
-  background: -o-linear-gradient(top,  #ffffff 0%,#32475c 7%,#32475c 89%,#ffffff 100%);
-  background: -ms-linear-gradient(top,  #ffffff 0%,#32475c 7%,#32475c 89%,#ffffff 100%);
   background: linear-gradient(to bottom,  #ffffff 0%,#32475c 7%,#32475c 89%,#ffffff 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 );
 }
+
 #awards li,
 #education li{
   width: 100%;
@@ -112,6 +108,7 @@ blockquote {
   position: relative;
   float: left;
 }
+
 #awards .year,
 #education .year{
   width: 14%;
@@ -120,6 +117,7 @@ blockquote {
   font-weight: 700;
   display: inline-block;
 }
+
 #awards .description,
 #education .description{
   width: 83%;
@@ -131,6 +129,7 @@ blockquote {
   border-bottom: 1px solid #ccc;
   border-right: 1px solid #ccc;
 }
+
 #awards .description:after,
 #education .description:after {
   content: '';
@@ -145,6 +144,7 @@ blockquote {
   border-width: 8px;
   pointer-events: none;
 }
+
 #awards .description h3,
 #education .description h3{
   font-size: 1.2em;
@@ -152,6 +152,7 @@ blockquote {
   padding: 0;
   font-weight: 700;
 }
+
 #awards .description p,
 #education .description p{
   margin-top: 5px;
@@ -222,7 +223,6 @@ blockquote {
   border-bottom: none;
 }
 .contact-item .title{
-  width: 80%;
   width: calc(100% - 55px);
   font-weight: 700;
   opacity: 0.9;
@@ -231,7 +231,6 @@ blockquote {
   margin-top: 10px;
 }
 .contact-item .description{
-  width: 80%;
   width: calc(100% - 55px);
   color: #334960;
 }
@@ -273,4 +272,13 @@ blockquote {
   margin: 10px 0;
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;
+}
+
+/* ----------------- */
+/* NOUVELLE CLASSE POUR LES DATES FORMATTÉES */
+/* ----------------- */
+.formatted-date {
+  font-weight: 600;
+  color: #227c74;
+  font-size: 0.95em;
 }

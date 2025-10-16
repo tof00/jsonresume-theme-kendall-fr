@@ -2,109 +2,94 @@ const fs = require('fs');
 const _ = require('lodash');
 const gravatar = require('gravatar');
 const Mustache = require('mustache');
-const dayjs = require('dayjs');
-require('dayjs/locale/fr'); // charger la locale française
 
-dayjs.locale('fr'); // définir la locale par défaut
+const monthsFR = [
+  "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+  "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+];
 
-function formatDate(dateStr) {
-    if (!dateStr) return 'Présent';
-    const date = dayjs(dateStr);
-    return `${date.format('MMMM')} ${date.format('YYYY')}`; // ex: "Octobre 2025"
+function getMonthFR(dateStr) {
+  if (!dateStr || dateStr.length < 7) return '';
+  const monthIndex = parseInt(dateStr.substr(5,2), 10) - 1;
+  return monthsFR[monthIndex] || '';
 }
 
-function render(resumeObject) {
-
-    resumeObject.basics.capitalName = resumeObject.basics.name.toUpperCase();
-
-    if (resumeObject.basics && resumeObject.basics.email) {
-        resumeObject.basics.gravatar = gravatar.url(resumeObject.basics.email, {
-            s: '200',
-            r: 'pg',
-            d: 'mm'
-        });
-    }
-
-    resumeObject.photo = resumeObject.basics.image || resumeObject.basics.gravatar;
-
-    _.each(resumeObject.basics.profiles, function(p){
-        const icons = {
-            'google-plus': 'fab fa-google-plus',
-            flickr: 'fab fa-flickr',
-            dribbble: 'fab fa-dribbble',
-            codepen: 'fab fa-codepen',
-            soundcloud: 'fab fa-soundcloud',
-            reddit: 'fab fa-reddit',
-            tumblr: 'fab fa-tumblr',
-            'stack-overflow': 'fab fa-stack-overflow',
-            blog: 'fas fa-rss',
-            rss: 'fas fa-rss',
-            gitlab: 'fab fa-gitlab',
-            keybase: 'fas fa-key'
-        };
-        p.iconClass = icons[p.network.toLowerCase()] || 'fab fa-' + p.network.toLowerCase();
-        p.text = p.url || `${p.network}: ${p.username}`;
-    });
-
-    function formatPeriod(entry) {
-        if (entry.startDate) {
-            entry.startDateFormatted = formatDate(entry.startDate);
-        }
-        entry.endDateFormatted = entry.endDate ? formatDate(entry.endDate) : 'Présent';
-        if (entry.highlights && entry.highlights[0]) {
-            entry.boolHighlights = entry.highlights[0] !== '';
-        }
-    }
-
-    ['work', 'volunteer'].forEach(section => {
-        if (resumeObject[section] && resumeObject[section].length) {
-            resumeObject[`${section}Bool`] = true;
-            _.each(resumeObject[section], formatPeriod);
-        }
-    });
-
-    ['projects', 'skills', 'interests', 'languages', 'references'].forEach(section => {
-        if (resumeObject[section] && resumeObject[section].length && resumeObject[section][0].name) {
-            resumeObject[`${section}Bool`] = true;
-        }
-    });
-
-    if (resumeObject.education && resumeObject.education.length) {
-        resumeObject.educationBool = true;
-        _.each(resumeObject.education, function(e){
-            e.educationDetail = (e.area || '') + (e.studyType ? ', ' + e.studyType : '');
-            e.startDateFormatted = e.startDate ? formatDate(e.startDate) : '';
-            e.endDateFormatted = e.endDate ? formatDate(e.endDate) : 'Présent';
-            if (e.courses && e.courses[0] && e.courses[0] !== '') {
-                e.educationCourses = true;
-            }
-        });
-    }
-
-    if (resumeObject.awards && resumeObject.awards.length) {
-        resumeObject.awardsBool = true;
-        _.each(resumeObject.awards, function(a){
-            const d = a.date ? dayjs(a.date) : null;
-            a.dateFormatted = d ? `${d.format('DD')} ${d.format('MMMM')} ${d.format('YYYY')}` : '';
-        });
-    }
-
-    if (resumeObject.publications && resumeObject.publications.length) {
-        resumeObject.publicationsBool = true;
-        _.each(resumeObject.publications, function(p){
-            const d = p.releaseDate ? dayjs(p.releaseDate) : null;
-            p.dateFormatted = d ? `${d.format('DD')} ${d.format('MMMM')} ${d.format('YYYY')}` : '';
-        });
-    }
-
-    resumeObject.css = fs.readFileSync(__dirname + "/style.css", "utf-8");
-    resumeObject.printcss = fs.readFileSync(__dirname + "/print.css", "utf-8");
-    const theme = fs.readFileSync(__dirname + '/resume.template', 'utf8');
-    const resumeHTML = Mustache.render(theme, resumeObject);
-
-    return resumeHTML;
+function formatDateFR(dateStr) {
+  if (!dateStr) return 'Présent';
+  const year = dateStr.substr(0,4);
+  const month = getMonthFR(dateStr);
+  return month ? `${month} ${year}` : year;
 }
 
-module.exports = {
-    render
-};
+function render(resume) {
+  const curYear = new Date().getFullYear();
+
+  // Basics
+  resume.basics.capitalName = resume.basics.name.toUpperCase();
+  if (resume.basics.email) {
+    resume.basics.gravatar = gravatar.url(resume.basics.email, { s:'200', r:'pg', d:'mm' });
+  }
+  resume.photo = resume.basics.image || resume.basics.gravatar || '';
+
+  // Profiles icons
+  _.each(resume.basics.profiles || [], function(p){
+    const icons = {
+      "google-plus":"fab fa-google-plus",
+      "flickr":"fab fa-flickr",
+      "dribbble":"fab fa-dribbble",
+      "codepen":"fab fa-codepen",
+      "soundcloud":"fab fa-soundcloud",
+      "reddit":"fab fa-reddit",
+      "tumblr":"fab fa-tumblr",
+      "stack-overflow":"fab fa-stack-overflow",
+      "blog":"fas fa-rss",
+      "rss":"fas fa-rss",
+      "gitlab":"fab fa-gitlab",
+      "keybase":"fas fa-key"
+    };
+    p.iconClass = icons[p.network.toLowerCase()] || `fab fa-${p.network.toLowerCase()}`;
+    p.text = p.url || `${p.network}: ${p.username}`;
+  });
+
+  // Helper pour travail, bénévolat, éducation, etc.
+  function processItems(items) {
+    _.each(items || [], item => {
+      item.startDateFormatted = formatDateFR(item.startDate);
+      item.endDateFormatted = formatDateFR(item.endDate);
+      if (item.endDate && parseInt(item.endDate.substr(0,4)) > curYear) {
+        item.endDateFormatted += " (prévu)";
+      }
+      if (item.highlights && item.highlights.length > 0 && item.highlights[0] !== "") {
+        item.boolHighlights = true;
+      }
+      if (item.courses && item.courses.length > 0 && item.courses[0] !== "") {
+        item.educationCourses = true;
+      }
+    });
+  }
+
+  resume.workBool = resume.work && resume.work.length > 0;
+  resume.volunteerBool = resume.volunteer && resume.volunteer.length > 0;
+  resume.projectsBool = resume.projects && resume.projects.length > 0 && resume.projects[0].name;
+  resume.educationBool = resume.education && resume.education.length > 0 && resume.education[0].institution;
+  resume.awardsBool = resume.awards && resume.awards.length > 0 && resume.awards[0].title;
+  resume.publicationsBool = resume.publications && resume.publications.length > 0 && resume.publications[0].name;
+  resume.skillsBool = resume.skills && resume.skills.length > 0 && resume.skills[0].name;
+  resume.interestsBool = resume.interests && resume.interests.length > 0 && resume.interests[0].name;
+  resume.languagesBool = resume.languages && resume.languages.length > 0 && resume.languages[0].language;
+  resume.referencesBool = resume.references && resume.references.length > 0 && resume.references[0].name;
+
+  processItems(resume.work);
+  processItems(resume.volunteer);
+  processItems(resume.education);
+  processItems(resume.awards);
+  processItems(resume.publications);
+
+  resume.css = fs.readFileSync(__dirname + "/style.css", "utf-8");
+  resume.printcss = fs.readFileSync(__dirname + "/print.css", "utf-8");
+  const template = fs.readFileSync(__dirname + "/resume.template", "utf-8");
+
+  return Mustache.render(template, resume);
+}
+
+module.exports = { render };
