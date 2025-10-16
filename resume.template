@@ -133,7 +133,19 @@
             {{/volunteer}}
           </div>
           {{/volunteerBool}}
-
+          {{#projectsBool}}
+          <!-- PROJETS -->
+          <div class="box">
+            <h2><i class= "fas fa-code-branch ico"></i> Projets</h2>
+            <ul class="list-group">
+              {{#projects}}
+              <li class="list-group-item">
+                <span style="font-weight:bold">{{name}}</span>: {{description}}
+              </li>
+              {{/projects}}
+            </ul>
+          </div>
+          {{/projectsBool}}
           {{#educationBool}}
           <!-- FORMATION -->
           <div class="box">
