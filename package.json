@@ -1,5 +1,5 @@
 {
-  "name": "jsonresume-theme-kendall-fr",
+  "name": "jsonresume-theme-kendall-fr-plus",
   "version": "0.2.0",
   "description": "A JSON Resume theme built with bootstrap",
   "main": "index.js",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/tof00/jsonresume-theme-kendall-fr.git"
+    "url": "https://github.com/tof00/jsonresume-theme-kendall-fr-plus.git"
   },
   "keywords": [
     "json",
@@ -23,7 +23,7 @@
     "theme"
   ],
   "bugs": {
-    "url": "https://github.com/tof00/jsonresume-theme-kendall-fr/issues"
+    "url": "https://github.com/tof00/jsonresume-theme-kendall-fr-plus/issues"
   },
-  "homepage": "https://github.com/tof00/jsonresume-theme-kendall-fr"
+  "homepage": "https://github.com/tof00/jsonresume-theme-kendall-fr-plus"
 }
